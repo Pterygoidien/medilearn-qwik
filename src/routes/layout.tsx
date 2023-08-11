@@ -1,5 +1,8 @@
-import { component$, Slot } from "@builder.io/qwik";
+import { component$, Slot,useContextProvider, useStore, useOnDocument, $ } from "@builder.io/qwik";
 import type { RequestHandler } from "@builder.io/qwik-city";
+import { type IThemeContext, ThemeContext} from "~/store/themeContext/themeContext";
+
+import Header from "~/components/layout/header/Header";
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -12,6 +15,25 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
   });
 };
 
+
 export default component$(() => {
-  return <Slot />;
+  const themeStore = useStore<IThemeContext>({
+    theme:'light',
+    manualToggle: false,
+  }, {deep:false})
+
+  useContextProvider(ThemeContext, themeStore);
+
+  useOnDocument('DOMContentLoaded', $(()=>{
+    themeStore.theme = localStorage.theme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') ;
+    document.documentElement.setAttribute('data-theme', themeStore.theme);
+    
+  }));
+
+  return (
+    <>
+      <Header />
+      <Slot />
+    </>
+  );
 });
