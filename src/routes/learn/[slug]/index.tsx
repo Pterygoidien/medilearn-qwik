@@ -3,7 +3,7 @@ import Section from "~/components/layout/containers/Section";
 
 export default component$(() => {
   return (
-    <>
+    <main>
       <Section class="flex">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
           <li class="inline-flex items-center">
@@ -102,6 +102,6 @@ export default component$(() => {
         <h2 class="text-xl">Sous-titre du cours</h2>
         <p>Description</p>
       </Section>
-    </>
+    </main>
   );
 });
