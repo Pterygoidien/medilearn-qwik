@@ -1,6 +1,17 @@
-import { component$, Slot,useContextProvider, useStore, useOnDocument, $ } from "@builder.io/qwik";
+import {
+  component$,
+  Slot,
+  useContextProvider,
+  useStore,
+  useOnDocument,
+  useVisibleTask$,
+  $,
+} from "@builder.io/qwik";
 import type { RequestHandler } from "@builder.io/qwik-city";
-import { type IThemeContext, ThemeContext} from "~/store/themeContext/themeContext";
+import {
+  type IThemeContext,
+  ThemeContext,
+} from "~/store/themeContext/themeContext";
 
 import Header from "~/components/layout/header/Header";
 
@@ -15,25 +26,40 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
   });
 };
 
-
 export default component$(() => {
-  const themeStore = useStore<IThemeContext>({
-    theme:'light',
-    manualToggle: false,
-  }, {deep:false})
+  const themeStore = useStore<IThemeContext>(
+    {
+      theme: "light",
+      manualToggle: false,
+    },
+    { deep: false }
+  );
 
   useContextProvider(ThemeContext, themeStore);
 
-  useOnDocument('DOMContentLoaded', $(()=>{
-    themeStore.theme = localStorage.theme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') ;
-    document.documentElement.setAttribute('data-theme', themeStore.theme);
-    
-  }));
+  useOnDocument(
+    "DOMContentLoaded",
+    $(() => {
+      themeStore.theme =
+        localStorage.theme ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light");
+      document.documentElement.setAttribute("data-theme", themeStore.theme);
+    })
+  );
+  useVisibleTask$(({ track }) => {
+    track(themeStore);
+    localStorage.setItem("theme", themeStore.theme);
+    document.documentElement.setAttribute("data-theme", themeStore.theme);
+  });
 
   return (
     <>
       <Header />
-      <Slot />
+      <main>
+        <Slot />
+      </main>
     </>
   );
 });

@@ -10,8 +10,8 @@ export default component$(() => {
 
     
     return (
-        <header class="flex">
-        <div class="container flex items-center justify-between mx-auto py-4 rounded-b-lg bg-white dark:bg-slate-900">
+        <header class="flex bg-tertiary border-b-4 border-indigo-600 mb-4">
+        <div class="container flex items-center justify-between mx-auto py-4 rounded-b-lg">
             <div id={styles.burgerMenu} class="lg:hidden">
                 <input type="checkbox"/>
 
@@ -21,19 +21,14 @@ export default component$(() => {
 
                 <ul id={styles['burgerMenu__nav']} class="bg-primary flex flex-col gap-4">
                     <li><Link href="/">Accueil</Link></li>
-                    <li><Link href="#">Abonnements</Link></li>
-                    <li><Link href="/parkings/" class="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded dark:bg-sky-200 dark:text-black py-4">Carte des parkings</Link></li>
 
                 </ul>
             </div>
             Medilearn
             <nav class="flex-grow uppercase font-bold hidden lg:block">
-                <ul class="flex gap-3 items-center mx-auto items-center justify-center self-center">
+                <ul class="flex gap-3 items-center mx-auto justify-center self-center">
                     <li><Link href="/">Accueil</Link></li>
-                    <li><Link href="#">Abonnements</Link></li>
-                    <li><Link href="/parkings/" class="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded dark:bg-sky-200 dark:text-black">Carte des parkings</Link></li>
-                    <li><Link href="#">A propos</Link></li>
-                    <li><Link href="/contact">Contact</Link></li>
+
                    </ul>
             </nav> 
             <div id="toggleSection">
