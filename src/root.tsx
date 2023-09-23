@@ -6,6 +6,9 @@ import {
 } from "@builder.io/qwik-city";
 import { RouterHead } from "./components/router-head/router-head";
 
+import { QwikSpeakProvider } from "qwik-speak";
+import { config } from "./utils/qwik-speak/speak-config";
+import { translationFn } from "./utils/qwik-speak/speak-functions";
 import "./global.css";
 
 export default component$(() => {
@@ -17,16 +20,18 @@ export default component$(() => {
    */
 
   return (
-    <QwikCityProvider>
-      <head>
-        <meta charSet="utf-8" />
-        <link rel="manifest" href="/manifest.json" />
-        <RouterHead />
-      </head>
-      <body lang="fr" class="bg-secondary dark:text-white">
-        <RouterOutlet />
-        <ServiceWorkerRegister />
-      </body>
-    </QwikCityProvider>
+    <QwikSpeakProvider config={config} translationFn={translationFn}>
+      <QwikCityProvider>
+        <head>
+          <meta charSet="utf-8" />
+          <link rel="manifest" href="/manifest.json" />
+          <RouterHead />
+        </head>
+        <body lang="fr" class="bg-secondary dark:text-white">
+          <RouterOutlet />
+          <ServiceWorkerRegister />
+        </body>
+      </QwikCityProvider>
+    </QwikSpeakProvider>
   );
 });

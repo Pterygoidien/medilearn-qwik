@@ -1,6 +1,7 @@
 import { component$ } from "@builder.io/qwik";
 import { routeLoader$, type DocumentHead } from "@builder.io/qwik-city";
 import { Image } from "@unpic/qwik";
+import { useTranslate, Speak } from "qwik-speak";
 
 export interface ICourse {
   id: string;
@@ -20,14 +21,27 @@ export interface ICourse {
 }
 
 export const useCourses = routeLoader$(async () => {
-  const response = await fetch("http://localhost:3000/course", {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    method: "GET",
-  });
-  return (await response.json()) as ICourse[];
+  try {
+    const response = await fetch("http://localhost:5000/course", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      method: "GET",
+    });
+    return (await response.json()) as ICourse[];
+  } catch (error) {
+    return [];
+  }
+});
+
+export const Home = component$(() => {
+  const t = useTranslate();
+  return (
+    <>
+      <h1 class="text-4xl mb-4">{t("home.showcase@@Showcase")}</h1>
+    </>
+  );
 });
 
 export default component$(() => {
@@ -36,7 +50,9 @@ export default component$(() => {
   return (
     <>
       <section class="container bg-secondary">
-        <h1 class="text-4xl mb-4">Explorer les cours</h1>
+        <Speak assets={["home"]}>
+          <Home />
+        </Speak>
 
         <ul class="flex gap-4 text-blue-900">
           {courses.value.map((course: ICourse) => {

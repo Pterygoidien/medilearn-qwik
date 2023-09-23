@@ -14,6 +14,7 @@ import {
 } from "~/store/themeContext/themeContext";
 
 import Header from "~/components/layout/header/Header";
+import { useAuthSession } from "./plugin@auth";
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -36,6 +37,9 @@ export default component$(() => {
   );
 
   useContextProvider(ThemeContext, themeStore);
+
+  const session = useAuthSession();
+  console.log("session", session);
 
   useOnDocument(
     "DOMContentLoaded",
